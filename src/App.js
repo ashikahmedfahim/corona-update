@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import CountryCurrentPage from "./pages/CountryCurrentPage";
+import VaccinationPage from "./pages/VaccinationPage";
+import CountryHistoryPage from "./pages/CountryHistoryPage";
+import SearchPage from "./pages/SearchPage";
+import Header from "./components/Header";
+import Search from "./components/Search";
 
 function App() {
+
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleSearchValue = (value) => {
+    setSearchValue(value);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header />
+      <Search searchValue={handleSearchValue} />
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route path="/country">
+          <CountryCurrentPage />
+        </Route>
+        <Route path="/vaccine">
+          <VaccinationPage />
+        </Route>
+        <Route path="/country-history">
+          <CountryHistoryPage />
+        </Route>
+        <Route path="/search">
+          <SearchPage searchValue={searchValue} />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
